@@ -56,18 +56,18 @@ The project follows a complete **machine learning pipeline**:
 7. Deploying the model as a **web application using Streamlit**
 
 ---
-# Model Performance
+## Model Performance
 
 Model Accuracy: **73%**
 
-Confusion Matrix Results:
+### Confusion Matrix
 
 | Actual / Predicted | Negative | Positive |
 |--------------------|---------|---------|
 | Negative           | 55      | 42      |
 | Positive           | 12      | 91      |
 
-The model performs reasonably well for a small dataset and demonstrates the full workflow of an NLP classification system.
+The model performs reasonably well for a small dataset and demonstrates a full NLP classification workflow.
 ---
 ## Project Structure
 
