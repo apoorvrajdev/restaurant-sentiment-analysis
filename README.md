@@ -9,6 +9,23 @@ This project performs sentiment analysis on restaurant reviews using Natural Lan
 
 The goal is to classify customer reviews as **positive** or **negative** to better understand customer feedback.
 
+## 🚀 Live Demo
+
+Try the AI sentiment analyzer here:
+
+https://restaurant-sentiment-analyzer.streamlit.app
+
+## Demo
+
+### Web Application
+![App Screenshot](<img width="1597" height="686" alt="image" src="https://github.com/user-attachments/assets/007998b2-f194-4568-ae49-9c9a73601948" />
+)
+
+
+### Confusion Matrix
+![Confusion Matrix](<img width="1007" height="831" alt="image" src="https://github.com/user-attachments/assets/221d2344-9a1c-4c90-b2fc-3885ea789380" />
+)
+
 ## Technologies Used
 
 - Python
