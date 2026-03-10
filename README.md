@@ -18,12 +18,11 @@ https://restaurant-sentiment-analyzer.streamlit.app
 ## Demo
 
 ### Web Application
-![App Screenshot](<img width="1597" height="686" alt="image" src="https://github.com/user-attachments/assets/007998b2-f194-4568-ae49-9c9a73601948" />
-)
+![App Screenshot](<img width="1242" height="648" alt="web app" src="https://github.com/user-attachments/assets/18b117ef-e768-4394-b89c-dca3e7e4586a" />
 
 
 ### Confusion Matrix
-![Confusion Matrix](<img width="1007" height="831" alt="image" src="https://github.com/user-attachments/assets/221d2344-9a1c-4c90-b2fc-3885ea789380" />
+![Confusion Matrix](<img width="1007" height="831" alt="confusion matrix" src="https://github.com/user-attachments/assets/605a2875-80ee-4322-a994-6ba76ef4a608" />
 )
 
 ## Technologies Used
