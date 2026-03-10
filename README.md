@@ -11,8 +11,7 @@ The model classifies customer reviews as **positive** or **negative** to better 
 ---
 # 🚀 Live Demo
 [![Open App](https://img.shields.io/badge/Open%20Live%20App-Streamlit-red)](https://restaurant-sentiment-analyzer.streamlit.app)
-
-Try the AI sentiment analyzer here:
+OR Try the AI sentiment analyzer here:
 
 https://restaurant-sentiment-analyzer.streamlit.app
 
