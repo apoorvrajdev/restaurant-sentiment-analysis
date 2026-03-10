@@ -10,6 +10,7 @@ This project performs **sentiment analysis on restaurant reviews** using **Natur
 The model classifies customer reviews as **positive** or **negative** to better understand customer feedback and automate sentiment detection.
 ---
 # 🚀 Live Demo
+[![Open App](https://img.shields.io/badge/Open%20Live%20App-Streamlit-red)](https://restaurant-sentiment-analyzer.streamlit.app)
 
 Try the AI sentiment analyzer here:
 
@@ -69,30 +70,39 @@ Confusion Matrix Results:
 
 The model performs reasonably well for a small dataset and demonstrates the full workflow of an NLP classification system.
 ---
-# Project Structure
+## Project Structure
 
+```
 restaurant-sentiment-analysis
 │
-├── Restaurant_sentiment_analysis.ipynb # Main notebook with model training
-├── app.py # Streamlit web application
-├── model.pkl # Trained machine learning model
-├── vectorizer.pkl # Text vectorizer
-├── requirements.txt # Python dependencies
-└── README.md # Project documentation
+├── Restaurant_sentiment_analysis.ipynb   # Main notebook with model training
+├── app.py                                # Streamlit web application
+├── model.pkl                             # Trained machine learning model
+├── vectorizer.pkl                        # Text vectorizer
+├── requirements.txt                      # Python dependencies
+└── README.md                             # Project documentation
+```
+## Installation
 
----
-# Installation
+### Clone the repository
 
-Clone the repository:
-git clone [https://github.com/apoorvrajdev/restaurant-sentiment-analysis.git](https://github.com/apoorvrajdev/restaurant-sentiment-analysis)
+```
+git clone https://github.com/apoorvrajdev/restaurant-sentiment-analysis.git
+```
 
-Install dependencies:
+### Install dependencies
 
+```
 pip install -r requirements.txt
-Run the application:
-streamlit run app.py
+```
 
-The app will open in your browser.
+### Run the application
+
+```
+streamlit run app.py
+```
+
+The app will open automatically in your browser.
 ---
 # Future Improvements
 - Improve model accuracy using **deep learning models (LSTM / Transformers)**
