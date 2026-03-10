@@ -18,12 +18,15 @@ https://restaurant-sentiment-analyzer.streamlit.app
 ## Demo
 
 ### Web Application
+#Positive Review :-
 ![App Screenshot](<img width="1242" height="648" alt="web app" src="https://github.com/user-attachments/assets/18b117ef-e768-4394-b89c-dca3e7e4586a" />
+#Negative Review :-
+![App Screenshot](<img width="1277" height="632" alt="negavite review" src="https://github.com/user-attachments/assets/f3042a7f-90c2-4b6f-b41e-0bc8bfe0bf0f" />
 
 
 ### Confusion Matrix
-![Confusion Matrix](<img width="1007" height="831" alt="confusion matrix" src="https://github.com/user-attachments/assets/605a2875-80ee-4322-a994-6ba76ef4a608" />
-)
+![Confusion Matrix](<img width="1007" height="831" alt="confusion matrix" src="https://github.com/user-attachments/assets/6e195b02-707b-47db-8c04-bed48ac126a4" />
+
 
 ## Technologies Used
 
@@ -48,6 +51,5 @@ https://restaurant-sentiment-analyzer.streamlit.app
 
 ## Future Improvements
 
-- Deploy the model as a web application
 - Improve model accuracy using deep learning
 - Train on a larger dataset
