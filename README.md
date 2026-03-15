@@ -110,6 +110,12 @@ The app will open automatically in your browser.
 - Deploy using **Docker and cloud infrastructure**
 
 ---
-# Author
-Apoorv Raj  
-Machine Learning & AI Enthusiast
+# 👨‍💻 Author
+
+**Apoorv Raj**
+
+Machine Learning & AI Engineer
+
+---
+
+⭐ If you found this project useful, consider giving it a **star on GitHub**.
