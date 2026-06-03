@@ -5,9 +5,9 @@
 ![NLP](https://img.shields.io/badge/NLP-Sentiment%20Analysis-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-This project performs **sentiment analysis on restaurant reviews** using **Natural Language Processing (NLP)** and **Machine Learning** techniques.
+End-to-end **NLP classification pipeline** that predicts customer sentiment from restaurant reviews. Built the full workflow from raw text preprocessing to deployed web application using classical machine learning.
 
-The model classifies customer reviews as **positive** or **negative** to better understand customer feedback and automate sentiment detection.
+**Key results:** 73% accuracy on a 1,000-review dataset, with a live Streamlit app serving real-time predictions.
 
 ---
 
@@ -15,7 +15,7 @@ The model classifies customer reviews as **positive** or **negative** to better 
 
 [![Open App](https://img.shields.io/badge/Open%20Live%20App-Streamlit-red)](https://restaurant-sentiment-analyzer.streamlit.app)
 
-Try the AI sentiment analyzer here: **[restaurant-sentiment-analyzer.streamlit.app](https://restaurant-sentiment-analyzer.streamlit.app)**
+Try the live sentiment analyzer here: **[restaurant-sentiment-analyzer.streamlit.app](https://restaurant-sentiment-analyzer.streamlit.app)**
 
 Users can type a restaurant review and instantly receive a sentiment prediction.
 
@@ -37,7 +37,7 @@ Real inference outputs captured from the deployed Streamlit application. Each ex
     <td align="center" width="50%">
       <b>❌ Negative Review — Classified Correctly</b><br/>
       <sub>Input: an unfavorable restaurant review · Output: <code>Negative</code></sub><br/><br/>
-      <img src="https://github.com/user-attachments/assets/f3042a7f-90c2-4b6f-b41e-0bc8bfe0bf0f" alt="Negative Review Prediction in Streamlit App" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/f3042f90-c90c-4b6f-b41e-0bc8bfe0bf0f" alt="Negative Review Prediction in Streamlit App" width="100%"/>
     </td>
   </tr>
 </table>
@@ -137,19 +137,11 @@ The app will open automatically in your browser.
 
 ---
 
-## 🔮 Future Improvements
-- Improve model accuracy using **deep learning models (LSTM / Transformers)**
-- Train the model on a **larger dataset**
-- Add **model explainability for word importance**
-- Deploy using **Docker and cloud infrastructure**
-
----
-
 ## 👨‍💻 Author
 
 **Apoorv Raj**
 
-Machine Learning & AI Engineer
+Machine Learning & NLP Engineer
 
 ---
 
