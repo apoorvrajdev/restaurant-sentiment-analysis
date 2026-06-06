@@ -1,20 +1,44 @@
-import streamlit as st
-import joblib
+import logging
 
-model = joblib.load("model.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
+import streamlit as st
+
+from inference import (
+    MAX_REVIEW_LENGTH,
+    ReviewValidationError,
+    load_artifacts,
+    predict_sentiment,
+)
+
+logger = logging.getLogger(__name__)
+
+
+@st.cache_resource
+def get_artifacts():
+    return load_artifacts()
+
+
+try:
+    model, vectorizer = get_artifacts()
+except Exception:
+    logger.exception("Failed to load sentiment model artifacts")
+    st.error("The sentiment model is temporarily unavailable. Please try again later.")
+    st.stop()
 
 st.title("Restaurant Review Sentiment Analyzer")
 
-review = st.text_input("Enter a restaurant review")
+review = st.text_area(
+    "Enter a restaurant review",
+    max_chars=MAX_REVIEW_LENGTH,
+    placeholder="Example: The food was delicious and the service was excellent.",
+)
 
 if st.button("Predict Sentiment"):
-
-    review_vector = vectorizer.transform([review]).toarray()
-
-    prediction = model.predict(review_vector)
-
-    if prediction[0] == 1:
-        st.success("Positive Review 😊")
+    try:
+        sentiment = predict_sentiment(review, model, vectorizer)
+    except ReviewValidationError as error:
+        st.warning(str(error))
     else:
-        st.error("Negative Review 😠")
+        if sentiment == "Positive":
+            st.success("Positive Review 😊")
+        else:
+            st.error("Negative Review 😠")

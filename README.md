@@ -105,8 +105,10 @@ restaurant-sentiment-analysis
 │
 ├── Restaurant_sentiment_analysis.ipynb   # Main notebook with model training
 ├── app.py                                # Streamlit web application
+├── inference.py                          # Validated model-serving logic
 ├── model.pkl                             # Trained machine learning model
 ├── vectorizer.pkl                        # Text vectorizer
+├── tests/                                # Automated inference regression tests
 ├── requirements.txt                      # Python dependencies
 └── README.md                             # Project documentation
 ```
@@ -134,6 +136,14 @@ streamlit run app.py
 ```
 
 The app will open automatically in your browser.
+
+### Run automated tests
+
+```
+python -m unittest discover -v
+```
+
+The inference layer validates empty, oversized, and unrecognized reviews before prediction. Model artifacts are loaded once per application process and the regression suite verifies known positive and negative predictions.
 
 ---
 
