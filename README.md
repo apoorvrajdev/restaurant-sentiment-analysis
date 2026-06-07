@@ -151,15 +151,15 @@ The inference layer validates empty, oversized, and unrecognized reviews before 
 
 The next development phase will focus on improving model performance, strengthening the inference pipeline, and making the application ready for broader real-world use.
 
-### Planned Roadmap
+### Future Development
 
-| Phase | Planned Improvements | Expected Outcome |
-|------:|----------------------|------------------|
-| **1. Model Quality** | Compare TF-IDF features and additional classifiers, tune hyperparameters, and evaluate precision, recall, and F1-score | Better-performing and more thoroughly validated sentiment predictions |
-| **2. Data Expansion** | Train on a larger, more diverse review dataset and analyze common misclassifications | Improved generalization to varied customer language |
-| **3. Application Reliability** | Add input validation, automated tests, structured error handling, and reproducible training scripts | A more maintainable and dependable application |
-| **4. Product Enhancements** | Add prediction confidence, batch review analysis, and visual sentiment summaries | More useful insights for restaurant owners and analysts |
-| **5. Production Readiness** | Add model versioning, prediction monitoring, and a lightweight API for integrations | A scalable deployment workflow with measurable model behavior |
+| Phase | Focus Area            | Planned Improvements                                                                                                                                                      | Impact                                                    |
+| ----: | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **1** | Model Evaluation      | Benchmark additional feature extraction techniques and classification algorithms, perform systematic hyperparameter tuning, and expand evaluation metrics beyond accuracy | Improved prediction quality and stronger model validation |
+| **2** | Dataset Enhancement   | Incorporate larger and more diverse review datasets, analyze classification errors, and address class imbalance where applicable                                          | Better generalization across real-world customer feedback |
+| **3** | Reliability & Testing | Expand automated test coverage, strengthen input validation, improve exception handling, and enhance reproducibility of the training pipeline                             | Increased application robustness and maintainability      |
+| **4** | User-Focused Features | Add prediction confidence scores, support batch sentiment analysis, and provide visual summaries of sentiment trends                                                      | More actionable insights for end users                    |
+| **5** | Production Readiness  | Introduce model versioning, CI/CD automation, monitoring, and deployment-friendly APIs                                                                                    | A more scalable and production-oriented ML workflow       |
 
 ---
 
