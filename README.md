@@ -1,3 +1,4 @@
+![CI](https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml/badge.svg)
 # Restaurant Sentiment Analysis
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
