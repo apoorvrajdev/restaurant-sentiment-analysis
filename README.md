@@ -101,20 +101,22 @@ The project follows a complete **machine learning pipeline**:
 
 ## 🗂️ Project Structure
 
+## Project Structure
+
 ```text
 restaurant-sentiment-analysis/
-├── app.py                     # Streamlit application
-├── inference.py               # Prediction and preprocessing logic
-├── requirements.txt           # Project dependencies
-├── model.pkl                  # Trained Naive Bayes model
-├── vectorizer.pkl             # TF-IDF vectorizer
+├── app.py
+├── inference.py
+├── model.pkl
+├── vectorizer.pkl
+├── requirements.txt
 ├── tests/
-│   ├── __init__.py
 │   └── test_inference.py
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-└── README.md
+├── docs/
+│   └── ARCHITECTURE.md
+└── .github/
+    └── workflows/
+        └── ci.yml
 
 ---
 
