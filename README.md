@@ -1,6 +1,7 @@
 # Restaurant Sentiment Analysis
 ![CI](https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml/badge.svg)
 
+![License](https://img.shields.io/badge/license-MIT-green)
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange)
 ![NLP](https://img.shields.io/badge/NLP-Sentiment%20Analysis-green)
