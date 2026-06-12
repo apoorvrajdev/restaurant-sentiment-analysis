@@ -107,18 +107,16 @@ The project follows a complete **machine learning pipeline**:
 restaurant-sentiment-analysis/
 ├── app.py
 ├── inference.py
+├── requirements.txt
 ├── model.pkl
 ├── vectorizer.pkl
-├── requirements.txt
 ├── tests/
-│   └── test_inference.py
 ├── docs/
 │   └── ARCHITECTURE.md
 └── .github/
     └── workflows/
         └── ci.yml
-
----
+```
 
 ## ⚙️ Installation
 
