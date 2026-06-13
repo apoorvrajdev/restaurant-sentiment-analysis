@@ -175,4 +175,30 @@ Machine Learning & NLP Engineer
 
 ---
 
+## FAQ
+
+### What machine learning model is used?
+
+This project uses a Naive Bayes classifier trained on restaurant review text transformed using TF-IDF feature extraction.
+
+### Can I analyze my own restaurant reviews?
+
+Yes. Enter any restaurant review into the Streamlit interface and the application will predict whether the sentiment is positive or negative.
+
+### How is the text processed?
+
+The review text is cleaned and transformed using a saved TF-IDF vectorizer before being passed to the trained model.
+
+### Is the model suitable for production use?
+
+The project includes input validation, automated testing, and CI workflows. It is primarily intended as a portfolio-quality machine learning project and educational reference.
+
+### How do I run the application locally?
+
+Install dependencies from `requirements.txt` and start the Streamlit app using:
+
+```bash
+streamlit run app.py
+```
+
 ⭐ If you found this project useful, consider giving it a **star on GitHub**.
