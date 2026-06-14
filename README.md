@@ -164,6 +164,16 @@ The inference layer validates empty, oversized, and unrecognized reviews before 
 
 ---
 
+## Current Limitations
+
+- Binary sentiment classification only
+- Model trained on a limited review dataset
+- No confidence score exposed to users
+- No model retraining pipeline
+- English-language reviews only
+
+---
+
 ## Future Work
 
 The next development phase will focus on improving model performance, strengthening the inference pipeline, and making the application ready for broader real-world use.
