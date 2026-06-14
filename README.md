@@ -163,6 +163,20 @@ python -m unittest discover -v
 The inference layer validates empty, oversized, and unrecognized reviews before prediction. Model artifacts are loaded once per application process and the regression suite verifies known positive and negative predictions.
 
 ---
+## Testing
+
+Run the automated test suite:
+
+```bash
+pytest
+```
+
+The test suite validates:
+
+- Prediction functionality
+- Input validation
+- Application stability
+```
 
 ## Current Limitations
 
