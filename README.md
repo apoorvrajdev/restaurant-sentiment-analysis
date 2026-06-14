@@ -119,6 +119,19 @@ restaurant-sentiment-analysis/
         └── ci.yml
 ```
 
+## Features
+
+- Sentiment classification of restaurant reviews
+- Streamlit-based interactive web interface
+- TF-IDF feature extraction
+- Naive Bayes machine learning model
+- Input validation and error handling
+- Automated testing with pytest
+- GitHub Actions CI workflow
+- Reproducible local setup
+
+```
+
 ## ⚙️ Installation
 
 ### Clone the repository
