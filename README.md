@@ -223,10 +223,10 @@ ruff format --check .  # formatting
 - [x] Model card documenting data, metrics, and limitations
 - [x] Test suite (17 tests) covering inference, artifact failures, and the UI
 - [x] CI quality gates: `ruff` lint/format + pytest coverage
+- [x] Upgraded `scikit-learn` (1.2.2 → 1.7.x) and retrained artifacts
 
 ### 🔜 Next Up
 
-- [ ] Bump `scikit-learn` off the pinned 1.2.2 and retrain artifacts
 - [ ] Expand the dataset and analyze misclassifications
 
 ### 🔭 Future Direction
