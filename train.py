@@ -17,12 +17,24 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
-from inference import preprocess
+from inference import (
+    CHECKSUM_FILENAME,
+    MODEL_FILENAME,
+    VECTORIZER_FILENAME,
+    preprocess,
+    sha256_of,
+)
 
 RANDOM_STATE = 0
 MAX_FEATURES = 1500
 DATA_PATH = Path(__file__).resolve().parent / "data" / "Restaurant_Reviews.tsv"
 ROOT = Path(__file__).resolve().parent
+
+
+def write_checksums(directory: Path, filenames: list[str]) -> None:
+    """Write a sha256sum-compatible manifest for the given artifacts."""
+    lines = [f"{sha256_of(directory / name)}  {name}" for name in filenames]
+    (directory / CHECKSUM_FILENAME).write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> None:
@@ -45,9 +57,10 @@ def main() -> None:
     print(confusion_matrix(y_test, y_pred))
     print(f"Accuracy: {accuracy_score(y_test, y_pred):.3f}")
 
-    joblib.dump(model, ROOT / "model.pkl")
-    joblib.dump(vectorizer, ROOT / "vectorizer.pkl")
-    print("Saved model.pkl and vectorizer.pkl")
+    joblib.dump(model, ROOT / MODEL_FILENAME)
+    joblib.dump(vectorizer, ROOT / VECTORIZER_FILENAME)
+    write_checksums(ROOT, [MODEL_FILENAME, VECTORIZER_FILENAME])
+    print(f"Saved {MODEL_FILENAME}, {VECTORIZER_FILENAME}, and {CHECKSUM_FILENAME}")
 
 
 if __name__ == "__main__":

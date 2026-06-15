@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import re
 from dataclasses import dataclass
@@ -12,6 +13,10 @@ from nltk.stem.porter import PorterStemmer
 
 MAX_REVIEW_LENGTH = 2_000
 
+MODEL_FILENAME = "model.pkl"
+VECTORIZER_FILENAME = "vectorizer.pkl"
+CHECKSUM_FILENAME = "artifacts.sha256"
+
 _STEMMER = PorterStemmer()
 
 logger = logging.getLogger(__name__)
@@ -19,6 +24,10 @@ logger = logging.getLogger(__name__)
 
 class ReviewValidationError(ValueError):
     """Raised when a review cannot produce a reliable prediction."""
+
+
+class ArtifactIntegrityError(RuntimeError):
+    """Raised when model artifacts fail integrity or type validation."""
 
 
 @dataclass(frozen=True)
@@ -52,11 +61,48 @@ def preprocess(text: str) -> str:
     return " ".join(stemmed)
 
 
+def sha256_of(path: Path) -> str:
+    """Return the hex SHA-256 digest of a file."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _verify_checksums(directory: Path) -> None:
+    """Verify artifacts against the checksum manifest, if one is present.
+
+    The manifest uses the standard ``<hex-digest>  <filename>`` format so it
+    is also checkable with ``sha256sum -c``. Missing manifest -> skip (older
+    deployments stay compatible); present but mismatched -> hard failure.
+    """
+    manifest = directory / CHECKSUM_FILENAME
+    if not manifest.exists():
+        return
+    for line in manifest.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        expected_digest, _, filename = line.partition("  ")
+        actual_digest = sha256_of(directory / filename.strip())
+        if actual_digest != expected_digest.strip():
+            raise ArtifactIntegrityError(
+                f"Checksum mismatch for {filename.strip()}; artifacts may be corrupt or tampered."
+            )
+
+
+def _validate_artifacts(model: Any, vectorizer: Any) -> None:
+    """Confirm the loaded objects are a usable model/vectorizer pair."""
+    if not callable(getattr(model, "predict_proba", None)):
+        raise ArtifactIntegrityError("Loaded model does not support predict_proba.")
+    if not callable(getattr(vectorizer, "transform", None)):
+        raise ArtifactIntegrityError("Loaded vectorizer does not support transform.")
+
+
 def load_artifacts(model_directory: Path | None = None) -> tuple[Any, Any]:
-    """Load the trusted model artifacts bundled with the application."""
+    """Load and integrity-check the trusted model artifacts."""
     artifact_directory = model_directory or Path(__file__).resolve().parent
-    model = joblib.load(artifact_directory / "model.pkl")
-    vectorizer = joblib.load(artifact_directory / "vectorizer.pkl")
+    _verify_checksums(artifact_directory)
+    model = joblib.load(artifact_directory / MODEL_FILENAME)
+    vectorizer = joblib.load(artifact_directory / VECTORIZER_FILENAME)
+    _validate_artifacts(model, vectorizer)
     return model, vectorizer
 
 
