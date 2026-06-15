@@ -1,267 +1,257 @@
-# Restaurant Sentiment Analysis
+<h1 align="center">Restaurant Review Sentiment Analyzer</h1>
 
-![CI](https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml/badge.svg)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange)
-![NLP](https://img.shields.io/badge/NLP-Sentiment%20Analysis-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+<p align="center">
+  <strong>An end-to-end NLP pipeline that predicts customer sentiment from restaurant reviews — from raw text to a deployed, tested web app.</strong>
+</p>
 
-End-to-end **NLP classification pipeline** that predicts customer sentiment from restaurant reviews. Built the full workflow from raw text preprocessing to deployed web application using classical machine learning.
+<p align="center">
+  <a href="https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml"><img src="https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <img src="https://img.shields.io/badge/python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+" />
+  <img src="https://img.shields.io/badge/scikit--learn-MultinomialNB-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn" />
+  <img src="https://img.shields.io/badge/Streamlit-deployed-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit" />
+  <img src="https://img.shields.io/badge/tests-17%20passing-success?style=flat-square" alt="Tests" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License: MIT" />
+</p>
 
-**Key results:** 78% accuracy on a 1,000-review dataset, with a live Streamlit app serving real-time predictions.
+<p align="center">
+  A compact, production-minded machine-learning project: classical NLP done correctly, with the engineering discipline — shared preprocessing, reproducible training, artifact integrity checks, tests, and CI — that keeps a model honest after it leaves the notebook.
+</p>
 
 ---
 
 ## 🚀 Live Demo
 
-[![Open App](https://img.shields.io/badge/Open%20Live%20App-Streamlit-red)](https://restaurant-sentiment-analyzer.streamlit.app)
+**[restaurant-sentiment-analyzer.streamlit.app](https://restaurant-sentiment-analyzer.streamlit.app)**
 
-Try the live sentiment analyzer here: **[restaurant-sentiment-analyzer.streamlit.app](https://restaurant-sentiment-analyzer.streamlit.app)**
-
-Users can type a restaurant review and instantly receive a sentiment prediction.
-
----
-
-## 📸 Application Showcase
-
-Real inference outputs captured from the deployed Streamlit application. Each example below shows a live prediction the model produced on customer-style review text.
-
-### Live Prediction Examples
+Type any restaurant review and get an instant Positive/Negative prediction with a confidence score.
 
 <table>
   <tr>
     <td align="center" width="50%">
-      <b>✅ Positive Review — Classified Correctly</b><br/>
-      <sub>Input: a favorable restaurant review · Output: <code>Positive</code></sub><br/><br/>
+      <b>✅ Positive Review</b><br/>
+      <sub>A favorable review → <code>Positive</code></sub><br/><br/>
       <img src="https://github.com/user-attachments/assets/18b117ef-e768-4394-b89c-dca3e7e4586a" alt="Positive Review Prediction in Streamlit App" width="100%"/>
     </td>
     <td align="center" width="50%">
-      <b>❌ Negative Review — Classified Correctly</b><br/>
-      <sub>Input: an unfavorable restaurant review · Output: <code>Negative</code></sub><br/><br/>
+      <b>❌ Negative Review</b><br/>
+      <sub>An unfavorable review → <code>Negative</code></sub><br/><br/>
       <img src="https://github.com/user-attachments/assets/f3042f90-c90c-4b6f-b41e-0bc8bfe0bf0f" alt="Negative Review Prediction in Streamlit App" width="100%"/>
     </td>
   </tr>
 </table>
 
-> Screenshots above are real outputs from the live, deployed application — not mockups. They demonstrate that the trained model, vectorizer, and Streamlit interface are fully wired together end-to-end.
+<sub>Screenshots are real outputs from the deployed app — the trained model, vectorizer, and Streamlit UI wired together end to end.</sub>
 
 ---
 
-## 📊 Model Validation
+## 📌 What Is This Project?
 
-### Confusion Matrix (Test Set)
+A binary sentiment classifier for restaurant reviews, served through a small Streamlit web app. A review goes in; cleaned text is vectorized, scored by a Naive Bayes model, and returned as **Positive** or **Negative** with a confidence percentage.
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/6e195b02-707b-47db-8c04-bed48ac126a4" alt="Confusion Matrix — Restaurant Sentiment Model" width="60%"/>
-</p>
+It is intentionally **not** a deep-learning showcase or a large system. It is a focused demonstration that the *unglamorous* parts of an ML project are done right: the same text preprocessing runs at training and inference time, training is reproducible from a script and a seed, the serialized artifacts are integrity-checked before they are trusted, and the whole thing is covered by tests that run in CI on every push.
 
-<p align="center"><sub>Confusion matrix generated during model evaluation on the held-out test split.</sub></p>
+I built it as a portfolio reference for the difference between "a model in a notebook" and "a model you can actually ship."
 
-**Model Accuracy: 78%**
+---
+
+## 💡 What This Project Demonstrates
+
+- **Train/inference parity** — a single `preprocess()` function is shared by the training script and the live request path, eliminating the train/serve skew that silently degrades accuracy.
+- **Reproducible training** — `train.py` rebuilds the model and vectorizer deterministically (`random_state=0`) from a version-controlled dataset.
+- **Artifact integrity** — `load_artifacts()` verifies a `sha256sum`-compatible checksum manifest and validates object types before serving predictions (defense-in-depth for pickle loading).
+- **Honest evaluation** — accuracy and a confusion matrix measured on a held-out test split, documented in a model card.
+- **Robust inference** — typed input validation with clear, user-facing error messages for empty, oversized, and unrecognized input.
+- **Explainable output** — every prediction carries a confidence score from `predict_proba`.
+- **Tested + automated** — 17 tests (inference, artifact-loading failure paths, and the Streamlit UI via `AppTest`) gated by `ruff` lint/format and coverage in GitHub Actions.
+
+---
+
+## 🧠 How It Works
+
+The project has two phases that share one preprocessing function, which is the whole point.
+
+```
+TRAINING  (train.py)                         INFERENCE  (app.py + inference.py)
+───────────────────                          ─────────────────────────────────
+Restaurant_Reviews.tsv                       user review (Streamlit text area)
+        │                                              │
+        ▼                                              ▼
+   preprocess()  ◀────── same function ──────▶   preprocess()
+   clean · lower · stem · stopwords             clean · lower · stem · stopwords
+        │                                              │
+        ▼                                              ▼
+   CountVectorizer.fit                          CountVectorizer.transform
+        │                                              │
+        ▼                                              ▼
+   MultinomialNB.fit                            MultinomialNB.predict_proba
+        │                                              │
+        ▼                                              ▼
+   model.pkl + vectorizer.pkl  ──────────────▶  label + confidence
+   + artifacts.sha256                           (validated + integrity-checked)
+```
+
+**Preprocessing (shared):** strip non-alphabetic characters → lowercase → remove English stopwords (keeping `not`, which carries sentiment) → Porter-stem each token.
+
+**Decision:** the predicted label is the higher-probability class; its probability is reported as the confidence score.
+
+---
+
+## 📊 Model Performance
+
+Measured on a 20% held-out test split (`random_state=0`). Reproduce with `python train.py`.
+
+| Metric   | Value      |
+| -------- | ---------- |
+| Accuracy | **0.78**   |
+| Model    | Multinomial Naive Bayes |
+| Features | Bag-of-Words (`CountVectorizer`, `max_features=1500`) |
+
+Confusion matrix (rows = actual, columns = predicted):
 
 | Actual ↓ / Predicted → | Negative | Positive |
-|------------------------|---------:|---------:|
+| ---------------------- | -------: | -------: |
 | **Negative**           | 75       | 22       |
 | **Positive**           | 22       | 81       |
 
-The model uses Multinomial Naive Bayes over Bag-of-Words features, with identical text preprocessing at training and inference time. It performs reasonably well for a small dataset and demonstrates a full NLP classification workflow.
+Full details — preprocessing, training data, intended use, and limitations — live in the [model card](docs/MODEL_CARD.md).
 
 ---
 
-## 📂 Dataset
+## 🛠️ Tech Stack
 
-The dataset contains **1000 restaurant reviews** labeled as **positive or negative**.
-
-The goal of the dataset is to train a machine learning model capable of understanding customer sentiment from text reviews.
-
----
-
-## 🛠️ Technologies Used
-- Python
-- Scikit-learn
-- Pandas
-- NumPy
-- NLTK
-- Jupyter Notebook
-- Streamlit
+| Layer          | Technologies                                            |
+| -------------- | ------------------------------------------------------- |
+| **Language**   | Python 3.10+                                            |
+| **ML / NLP**   | scikit-learn (MultinomialNB, CountVectorizer), NLTK, pandas, numpy, joblib |
+| **Web app**    | Streamlit                                               |
+| **Quality**    | pytest, pytest-cov, ruff (lint + format)                |
+| **CI**         | GitHub Actions                                          |
 
 ---
 
-## 🔄 Project Workflow
-The project follows a complete **machine learning pipeline**:
-1. Data preprocessing and text cleaning
-2. Tokenization and stopword removal
-3. Feature extraction using **Bag of Words** (`CountVectorizer`)
-4. Model training using a **Multinomial Naive Bayes classifier**
-5. Model evaluation using **confusion matrix and accuracy**
-6. Saving the trained model and vectorizer
-7. Deploying the model as a **web application using Streamlit**
+## 📁 Repository Structure
 
----
-
-## 🗂️ Project Structure
-
-```text
+```
 restaurant-sentiment-analysis/
-├── app.py                # Streamlit web interface
-├── inference.py          # Preprocessing, validation, and prediction
-├── train.py              # Reproducible training script
-├── requirements.txt
-├── model.pkl             # Trained Multinomial Naive Bayes model
-├── vectorizer.pkl        # Fitted CountVectorizer
+├── app.py                  # Streamlit UI — thin: renders, calls inference
+├── inference.py            # preprocess(), validation, integrity-checked loading, prediction
+├── train.py                # Reproducible training; writes artifacts + checksum manifest
+├── model.pkl               # Trained Multinomial Naive Bayes model
+├── vectorizer.pkl          # Fitted CountVectorizer
+├── artifacts.sha256        # sha256sum-compatible manifest for the artifacts
+├── requirements.txt        # Runtime dependencies
+├── requirements-dev.txt    # Dev/test/lint dependencies
+├── pyproject.toml          # ruff + pytest/coverage config
 ├── data/
-│   └── Restaurant_Reviews.tsv
+│   └── Restaurant_Reviews.tsv   # 1,000 labeled reviews
 ├── tests/
+│   ├── test_inference.py   # Prediction + validation + preprocessing parity
+│   ├── test_artifacts.py   # load_artifacts() failure + integrity paths
+│   └── test_app.py         # Streamlit UI via AppTest
 ├── docs/
-│   └── ARCHITECTURE.md
-└── .github/
-    └── workflows/
-        └── ci.yml
+│   ├── ARCHITECTURE.md
+│   ├── MODEL_CARD.md
+│   └── DEPLOYMENT.md
+└── .github/workflows/ci.yml
 ```
 
-## Features
+---
 
-- Sentiment classification of restaurant reviews
-- Streamlit-based interactive web interface
-- Bag-of-Words feature extraction (`CountVectorizer`)
-- Multinomial Naive Bayes machine learning model
-- Prediction confidence score shown alongside each result
-- Shared text preprocessing across training and inference
-- Input validation and error handling
-- Automated testing with pytest
-- GitHub Actions CI workflow
-- Reproducible local setup
+## 🏁 Quick Start
 
-## ⚙️ Installation
+### Prerequisites
 
-### Clone the repository
+- Python **3.10+**
+- Git
 
-```
+### Install & run
+
+```bash
 git clone https://github.com/apoorvrajdev/restaurant-sentiment-analysis.git
-```
-
-### Install dependencies
-
-```
+cd restaurant-sentiment-analysis
 pip install -r requirements.txt
-```
-
-### Run the application
-
-```
 streamlit run app.py
 ```
 
-The app will open automatically in your browser.
+The app opens at **http://localhost:8501**.
 
-### Retrain the model (optional)
+### Reproduce training
 
-The dataset lives in `data/Restaurant_Reviews.tsv`. To regenerate `model.pkl` and `vectorizer.pkl` from scratch using the same preprocessing as inference:
+The dataset lives in `data/Restaurant_Reviews.tsv`. Regenerate the model, vectorizer, and checksum manifest:
 
-```
+```bash
 python train.py
 ```
 
-### Run automated tests
-
-```
-python -m unittest discover -v
-```
-
-The inference layer validates empty, oversized, and unrecognized reviews before prediction. Model artifacts are loaded once per application process and the regression suite verifies known positive and negative predictions.
-
----
-## Testing
-
-Run the automated test suite:
+### Run the test suite
 
 ```bash
-pytest
+pip install -r requirements-dev.txt
+pytest                 # 17 tests, with coverage
+ruff check .           # lint
+ruff format --check .  # formatting
 ```
 
-The test suite validates:
+---
 
-- Prediction functionality
-- Input validation
-- Application stability
+## 🔧 Engineering Decisions
 
-## Current Limitations
+> **Why share one `preprocess()` between training and inference?**
+> Train/serve skew is the bug that quietly destroys classical-NLP accuracy: if training stems and de-stopwords text but inference doesn't, the live request sends tokens the vectorizer's vocabulary never saw, and they're silently dropped. The only durable fix is a single code path. `train.py` and `inference.py` import the same `preprocess()`, so the text entering the vectorizer at inference is processed byte-for-byte like the training corpus.
 
-- Binary sentiment classification only
-- Model trained on a limited review dataset
-- English-language reviews only
+> **Why Multinomial Naive Bayes and not Gaussian?**
+> The features are word counts from a Bag-of-Words vectorizer — discrete, sparse, non-negative. `MultinomialNB` is built for exactly that distribution; `GaussianNB` assumes continuous, normally-distributed features and is a poor fit for count data. Switching to it lifted held-out accuracy.
+
+> **Why Bag-of-Words instead of a transformer?**
+> On 1,000 reviews, a large language model would be overkill, slower to serve, and far harder to explain. A linear-time, fully interpretable classical pipeline is the honest engineering choice at this scale — and it keeps the deployed app small enough to run free on Streamlit Cloud.
+
+> **Why checksum and type-validate the model artifacts?**
+> `joblib`/pickle loading executes arbitrary code, so artifacts are a supply-chain surface. `load_artifacts()` verifies a committed `sha256` manifest and confirms the loaded objects actually expose `predict_proba`/`transform` before serving — so a corrupted or swapped artifact fails loudly instead of producing silent garbage.
 
 ---
 
 ## 🗺️ Roadmap
 
-This project is being hardened from a working portfolio demo toward a more
-production-oriented ML workflow. Progress is tracked below.
-
 ### ✅ Completed
 
-| Area              | Improvement                                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------------------- |
-| Model correctness | Aligned inference with training by sharing a single `preprocess()` (clean → stem → stopword)       |
-| Model quality     | Switched from Gaussian to **Multinomial Naive Bayes** (test accuracy 0.73 → 0.78)                  |
-| Reproducibility   | Added a deterministic `train.py` (seeded) and versioned the training dataset                       |
-| Feature           | Prediction **confidence score** surfaced in the UI, with prediction logging                        |
-| Testing           | Expanded suite to 9 tests incl. regression cases for inflected words (93% coverage on `inference`) |
-| Documentation     | Corrected feature-extraction description (Bag-of-Words, not TF-IDF) and refreshed metrics          |
-| Tooling & CI      | Split runtime/dev dependencies, added `ruff` lint+format and coverage gates to CI                  |
+- [x] Streamlit app with live Positive/Negative prediction
+- [x] Shared `preprocess()` across training and inference (train/serve parity)
+- [x] Switched Gaussian → **Multinomial Naive Bayes** (accuracy 0.73 → 0.78)
+- [x] Reproducible `train.py` + version-controlled dataset
+- [x] Prediction **confidence score** in the UI, with prediction logging
+- [x] Artifact integrity: `sha256` manifest + object-type validation on load
+- [x] Model card documenting data, metrics, and limitations
+- [x] Test suite (17 tests) covering inference, artifact failures, and the UI
+- [x] CI quality gates: `ruff` lint/format + pytest coverage
 
 ### 🔜 Next Up
 
-| Priority | Focus Area              | Planned Work                                                                                          |
-| -------: | ----------------------- | ----------------------------------------------------------------------------------------------------- |
-| **1**    | Reliability & Testing   | Test `app.py` and `load_artifacts()` failure paths (missing/corrupt artifacts)                        |
-| **2**    | Model Integrity         | Add artifact checksums, validate model type on load, and publish a model card with version + metrics  |
-| **3**    | Dependency Maintenance  | Bump `scikit-learn` off the pinned 1.2.2 and retrain artifacts against the new version                |
+- [ ] Bump `scikit-learn` off the pinned 1.2.2 and retrain artifacts
+- [ ] Expand the dataset and analyze misclassifications
 
 ### 🔭 Future Direction
 
-| Focus Area            | Ideas                                                                                                |
-| --------------------- | ---------------------------------------------------------------------------------------------------- |
-| Model Evaluation      | Benchmark alternative features/classifiers, hyperparameter tuning, metrics beyond accuracy           |
-| Dataset Enhancement   | Larger and more diverse datasets, error analysis, class-imbalance handling                           |
-| User-Focused Features | Batch sentiment analysis and visual summaries of sentiment trends                                    |
-| Production Readiness  | Model monitoring/drift detection and a deployment-friendly prediction API                            |
+- [ ] Neutral / mixed sentiment class beyond binary
+- [ ] Batch analysis and sentiment-trend visualizations
+- [ ] Benchmark alternative features/classifiers and tune hyperparameters
 
 ---
 
-## 👨‍💻 Author
+## ⚠️ Limitations
 
-**Apoorv Raj**
-
-Machine Learning & NLP Engineer
+- Binary sentiment only — no neutral or mixed class.
+- English-language reviews only.
+- Trained on a small, single-domain dataset; may not generalize to other corpora.
+- Bag-of-Words ignores word order and most negation beyond the retained `not` token.
 
 ---
 
-## FAQ
+## 📄 License & Contact
 
-### What machine learning model is used?
+Released under the [MIT License](LICENSE).
 
-This project uses a Multinomial Naive Bayes classifier trained on restaurant review text transformed into Bag-of-Words features with `CountVectorizer`.
+**Built by [apoorvrajdev](https://github.com/apoorvrajdev)** — reach me at [apoorvrajmgr@gmail.com](mailto:apoorvrajmgr@gmail.com).
 
-### Can I analyze my own restaurant reviews?
-
-Yes. Enter any restaurant review into the Streamlit interface and the application will predict whether the sentiment is positive or negative.
-
-### How is the text processed?
-
-The review text is cleaned, lowercased, stemmed, and stripped of stopwords (the same `preprocess()` step used at training time), then transformed by the saved `CountVectorizer` before being passed to the trained model.
-
-### Is the model suitable for production use?
-
-The project includes input validation, automated testing, and CI workflows. It is primarily intended as a portfolio-quality machine learning project and educational reference.
-
-### How do I run the application locally?
-
-Install dependencies from `requirements.txt` and start the Streamlit app using:
-
-```bash
-streamlit run app.py
-```
-
-⭐ If you found this project useful, consider giving it a **star on GitHub**.
+<p align="center">
+  <em>A portfolio project demonstrating production-minded machine-learning engineering.</em>
+</p>

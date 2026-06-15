@@ -4,10 +4,10 @@ Training Data
 Text Cleaning
       │
       ▼
-TF-IDF Vectorizer
+Bag-of-Words (CountVectorizer)
       │
       ▼
-Naive Bayes Model
+Multinomial Naive Bayes Model
       │
       ▼
 model.pkl + vectorizer.pkl
