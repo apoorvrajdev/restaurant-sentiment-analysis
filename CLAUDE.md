@@ -25,6 +25,20 @@ Use Conventional Commits. Examples:
 
 Keep subject under 72 characters. Body optional but explains *why*, not *what*.
 
+## Commit Granularity
+
+**Prefer many small, focused commits over a few large ones** — more commits means
+more GitHub contribution activity, which is a goal for this project. Split a batch
+of work so each logical change lands as its own Conventional Commit.
+
+- When changes touch multiple files for **distinct** reasons, commit them
+  separately (one `git add <file>` + `git commit` pair each) rather than together.
+- Always suggest the commit sequence as separate per-file / per-change commits so
+  the user can rack up individual commits.
+- Each commit must still stand on its own as one coherent, meaningful change with
+  a clear message. Do **not** split a single indivisible change across artificial
+  commits purely to inflate the count — cohesive granularity, not padding.
+
 ## Project Stack
 
 - **Language:** Python 3.10+ (CI runs 3.11)
