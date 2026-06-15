@@ -194,19 +194,39 @@ The test suite validates:
 
 ---
 
-## Future Work
+## 🗺️ Roadmap
 
-The next development phase will focus on improving model performance, strengthening the inference pipeline, and making the application ready for broader real-world use.
+This project is being hardened from a working portfolio demo toward a more
+production-oriented ML workflow. Progress is tracked below.
 
-### Future Development
+### ✅ Completed
 
-| Phase | Focus Area            | Planned Improvements                                                                                                                                                      | Impact                                                    |
-| ----: | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| **1** | Model Evaluation      | Benchmark additional feature extraction techniques and classification algorithms, perform systematic hyperparameter tuning, and expand evaluation metrics beyond accuracy | Improved prediction quality and stronger model validation |
-| **2** | Dataset Enhancement   | Incorporate larger and more diverse review datasets, analyze classification errors, and address class imbalance where applicable                                          | Better generalization across real-world customer feedback |
-| **3** | Reliability & Testing | Expand automated test coverage, strengthen input validation, improve exception handling, and enhance reproducibility of the training pipeline                             | Increased application robustness and maintainability      |
-| **4** | User-Focused Features | Support batch sentiment analysis and provide visual summaries of sentiment trends                                                      | More actionable insights for end users                    |
-| **5** | Production Readiness  | Introduce model versioning, CI/CD automation, monitoring, and deployment-friendly APIs                                                                                    | A more scalable and production-oriented ML workflow       |
+| Area              | Improvement                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| Model correctness | Aligned inference with training by sharing a single `preprocess()` (clean → stem → stopword)       |
+| Model quality     | Switched from Gaussian to **Multinomial Naive Bayes** (test accuracy 0.73 → 0.78)                  |
+| Reproducibility   | Added a deterministic `train.py` (seeded) and versioned the training dataset                       |
+| Feature           | Prediction **confidence score** surfaced in the UI, with prediction logging                        |
+| Testing           | Expanded suite to 9 tests incl. regression cases for inflected words (93% coverage on `inference`) |
+| Documentation     | Corrected feature-extraction description (Bag-of-Words, not TF-IDF) and refreshed metrics          |
+| Tooling & CI      | Split runtime/dev dependencies, added `ruff` lint+format and coverage gates to CI                  |
+
+### 🔜 Next Up
+
+| Priority | Focus Area              | Planned Work                                                                                          |
+| -------: | ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| **1**    | Reliability & Testing   | Test `app.py` and `load_artifacts()` failure paths (missing/corrupt artifacts)                        |
+| **2**    | Model Integrity         | Add artifact checksums, validate model type on load, and publish a model card with version + metrics  |
+| **3**    | Dependency Maintenance  | Bump `scikit-learn` off the pinned 1.2.2 and retrain artifacts against the new version                |
+
+### 🔭 Future Direction
+
+| Focus Area            | Ideas                                                                                                |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| Model Evaluation      | Benchmark alternative features/classifiers, hyperparameter tuning, metrics beyond accuracy           |
+| Dataset Enhancement   | Larger and more diverse datasets, error analysis, class-imbalance handling                           |
+| User-Focused Features | Batch sentiment analysis and visual summaries of sentiment trends                                    |
+| Production Readiness  | Model monitoring/drift detection and a deployment-friendly prediction API                            |
 
 ---
 
