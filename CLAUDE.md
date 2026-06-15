@@ -66,7 +66,7 @@ of work so each logical change lands as its own Conventional Commit.
 - User-facing validation errors raise `ReviewValidationError` with a clear, friendly message.
 - Keep `app.py` thin — UI rendering and orchestration only.
 - README and `docs/` must accurately reflect the actual model and feature extraction in use
-  (Bag-of-Words via `CountVectorizer`, Multinomial Naive Bayes) — keep docs in sync with code.
+  (TF-IDF via `TfidfVectorizer`, Logistic Regression) — keep docs in sync with code.
 
 ## Working Style
 

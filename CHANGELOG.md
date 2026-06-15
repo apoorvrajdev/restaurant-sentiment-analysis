@@ -16,11 +16,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - Inference now shares a single `preprocess()` with training, eliminating train/serve skew.
 - Switched the classifier from Gaussian to Multinomial Naive Bayes (test accuracy 0.73 → 0.78).
-- Upgraded scikit-learn 1.2.2 → 1.7.x and retrained artifacts (metrics unchanged).
+- Adopted TF-IDF + Logistic Regression after benchmarking (test accuracy 0.78 → 0.82); see `docs/EVALUATION.md`.
+- `train.py` now fits the vectorizer on the training split only (no test-set vocabulary leakage).
+- Upgraded scikit-learn 1.2.2 → 1.7.x and retrained artifacts.
 - Rewrote the README to portfolio standard and aligned the architecture docs.
 
+### Added (analysis)
+- `evaluate.py` benchmarking script and `docs/EVALUATION.md` report.
+
 ### Fixed
-- Documentation incorrectly described feature extraction as TF-IDF; it is Bag-of-Words (`CountVectorizer`).
+- Corrected documentation that misdescribed the feature extraction and model.
 
 ## [1.0.0]
 
