@@ -40,7 +40,7 @@ Type any restaurant review and get an instant Positive/Negative prediction with 
   </tr>
 </table>
 
-<sub>Screenshots are real outputs from the deployed app — the trained model, vectorizer, and Streamlit UI wired together end to end.</sub>
+<sub>Real outputs from the live app — confidence-scored predictions in a polished interface with light/dark themes.</sub>
 
 ---
 
