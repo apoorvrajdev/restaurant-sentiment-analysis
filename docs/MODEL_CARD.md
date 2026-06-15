@@ -5,8 +5,9 @@
 | Field | Value |
 | ----- | ----- |
 | Task | Binary sentiment classification of restaurant reviews |
-| Model | Multinomial Naive Bayes (`sklearn.naive_bayes.MultinomialNB`) |
-| Features | Bag-of-Words (`CountVectorizer`, `max_features=1500`) |
+| Model | Logistic Regression (`sklearn.linear_model.LogisticRegression`) |
+| Features | TF-IDF (`TfidfVectorizer`, `max_features=1500`) |
+| Selected by | Benchmarking — see [EVALUATION.md](EVALUATION.md) |
 | Artifacts | `model.pkl`, `vectorizer.pkl` |
 | Last trained | 2026-06-15 |
 | Reproduce with | `python train.py` |
@@ -28,7 +29,7 @@ silently degrades accuracy by sending out-of-vocabulary tokens to the model.
 
 - Source: `data/Restaurant_Reviews.tsv`
 - Size: 1,000 labeled reviews (binary: 1 = positive, 0 = negative)
-- Split: 80% train / 20% test, `random_state=0`
+- Split: 80% train / 20% test, stratified, `random_state=0` (vectorizer fit on the training split only)
 
 ## Evaluation
 
@@ -36,14 +37,14 @@ Measured on the 20% held-out test set:
 
 | Metric | Value |
 | ------ | ----- |
-| Accuracy | 0.78 |
+| Accuracy | 0.82 |
 
 Confusion matrix (rows = actual, columns = predicted):
 
 | Actual ↓ / Predicted → | Negative | Positive |
 | ---------------------- | -------: | -------: |
-| **Negative**           | 75       | 22       |
-| **Positive**           | 22       | 81       |
+| **Negative**           | 81       | 19       |
+| **Positive**           | 17       | 83       |
 
 Each prediction also returns a confidence score (the predicted class probability
 from `predict_proba`).
@@ -58,7 +59,7 @@ Not intended for high-stakes or production decision-making without further valid
 - Binary only — no neutral or mixed sentiment.
 - English-language reviews only.
 - Trained on a small, single-domain dataset; may not generalize to other corpora.
-- Bag-of-Words ignores word order and most negation beyond the retained `not` token.
+- TF-IDF ignores word order and most negation beyond the retained `not` token.
 
 ## Integrity & Versioning
 
