@@ -17,12 +17,20 @@ class InferenceTests(unittest.TestCase):
     def test_predicts_known_positive_review(self) -> None:
         result = predict_sentiment("good food", self.model, self.vectorizer)
 
-        self.assertEqual(result, "Positive")
+        self.assertEqual(result.label, "Positive")
 
     def test_predicts_known_negative_review(self) -> None:
         result = predict_sentiment("bad food", self.model, self.vectorizer)
 
-        self.assertEqual(result, "Negative")
+        self.assertEqual(result.label, "Negative")
+
+    def test_prediction_reports_confidence(self) -> None:
+        result = predict_sentiment("good food", self.model, self.vectorizer)
+
+        # The predicted label is the argmax probability, so for a binary
+        # classifier its confidence is always in [0.5, 1.0].
+        self.assertGreaterEqual(result.confidence, 0.5)
+        self.assertLessEqual(result.confidence, 1.0)
 
     def test_rejects_empty_review(self) -> None:
         with self.assertRaisesRegex(ReviewValidationError, "Enter a review"):
@@ -43,7 +51,7 @@ class InferenceTests(unittest.TestCase):
             "I loved this place, the food was tasty.", self.model, self.vectorizer
         )
 
-        self.assertEqual(result, "Positive")
+        self.assertEqual(result.label, "Positive")
 
     def test_predicts_inflected_negative_review(self) -> None:
         result = predict_sentiment(
@@ -52,7 +60,7 @@ class InferenceTests(unittest.TestCase):
             self.vectorizer,
         )
 
-        self.assertEqual(result, "Negative")
+        self.assertEqual(result.label, "Negative")
 
     def test_preprocess_matches_training_pipeline(self) -> None:
         # Lowercased, stemmed, stopwords removed; "not" deliberately kept.

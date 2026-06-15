@@ -9,6 +9,7 @@ from inference import (
     predict_sentiment,
 )
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -34,11 +35,12 @@ review = st.text_area(
 
 if st.button("Predict Sentiment"):
     try:
-        sentiment = predict_sentiment(review, model, vectorizer)
+        result = predict_sentiment(review, model, vectorizer)
     except ReviewValidationError as error:
         st.warning(str(error))
     else:
-        if sentiment == "Positive":
-            st.success("Positive Review 😊")
+        confidence = f"{result.confidence:.0%} confidence"
+        if result.label == "Positive":
+            st.success(f"Positive Review 😊 — {confidence}")
         else:
-            st.error("Negative Review 😠")
+            st.error(f"Negative Review 😠 — {confidence}")

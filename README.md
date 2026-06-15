@@ -126,6 +126,7 @@ restaurant-sentiment-analysis/
 - Streamlit-based interactive web interface
 - Bag-of-Words feature extraction (`CountVectorizer`)
 - Multinomial Naive Bayes machine learning model
+- Prediction confidence score shown alongside each result
 - Shared text preprocessing across training and inference
 - Input validation and error handling
 - Automated testing with pytest
@@ -189,7 +190,6 @@ The test suite validates:
 
 - Binary sentiment classification only
 - Model trained on a limited review dataset
-- No confidence score exposed to users
 - English-language reviews only
 
 ---
@@ -205,7 +205,7 @@ The next development phase will focus on improving model performance, strengthen
 | **1** | Model Evaluation      | Benchmark additional feature extraction techniques and classification algorithms, perform systematic hyperparameter tuning, and expand evaluation metrics beyond accuracy | Improved prediction quality and stronger model validation |
 | **2** | Dataset Enhancement   | Incorporate larger and more diverse review datasets, analyze classification errors, and address class imbalance where applicable                                          | Better generalization across real-world customer feedback |
 | **3** | Reliability & Testing | Expand automated test coverage, strengthen input validation, improve exception handling, and enhance reproducibility of the training pipeline                             | Increased application robustness and maintainability      |
-| **4** | User-Focused Features | Add prediction confidence scores, support batch sentiment analysis, and provide visual summaries of sentiment trends                                                      | More actionable insights for end users                    |
+| **4** | User-Focused Features | Support batch sentiment analysis and provide visual summaries of sentiment trends                                                      | More actionable insights for end users                    |
 | **5** | Production Readiness  | Introduce model versioning, CI/CD automation, monitoring, and deployment-friendly APIs                                                                                    | A more scalable and production-oriented ML workflow       |
 
 ---
