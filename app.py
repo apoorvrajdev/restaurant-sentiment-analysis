@@ -62,13 +62,14 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 }
 #MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
 [data-testid="stHeader"] { background: transparent; }
-.stApp, [data-testid="stAppViewContainer"] { background: $bg; }
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"],
+[data-testid="stMainBlockContainer"] { background: $bg !important; }
 .block-container { max-width: 720px; padding-top: 0.75rem; padding-bottom: 1rem; }
 [data-testid="stVerticalBlock"] { gap: 0.5rem; }
 .stApp, .stApp p, .stApp label, .stMarkdown,
-[data-testid="stWidgetLabel"] p { color: $text; }
+[data-testid="stWidgetLabel"] p { color: $text !important; }
 [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {
-    color: $sub; margin-bottom: 0;
+    color: $sub !important; margin-bottom: 0;
 }
 
 .banner {
@@ -79,24 +80,30 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 }
 .banner .kicker {
     font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em;
-    text-transform: uppercase; color: #C7D2FE; margin-bottom: 0.3rem;
+    text-transform: uppercase; color: #C7D2FE !important; margin-bottom: 0.3rem;
 }
-.banner .title { font-size: 1.8rem; font-weight: 700; line-height: 1.1; color: #FFFFFF; margin: 0; }
-.banner .sub { font-size: 0.9rem; color: #E2E8F0; margin-top: 0.35rem; max-width: 34rem; }
+.banner .title {
+    font-size: 1.8rem; font-weight: 700; line-height: 1.1; color: #FFFFFF !important; margin: 0;
+}
+.banner .sub {
+    font-size: 0.9rem; color: #E2E8F0 !important; margin-top: 0.35rem; max-width: 34rem;
+}
 
 .food-strip { display: flex; gap: 10px; margin-bottom: 0.5rem; }
 .food-strip img { flex: 1; width: 100%; height: 54px; object-fit: cover; border-radius: 10px; }
 
 .stTextArea textarea {
     border-radius: 12px; border: 1px solid $border; font-size: 1rem;
-    background: $secondary; color: $text;
+    background: $secondary !important; color: $text !important;
 }
 .stButton > button {
     border-radius: 10px; border: 1px solid $border; font-weight: 500;
-    background: $card; color: $text; transition: all 0.15s ease;
+    background: $card !important; color: $text !important; transition: all 0.15s ease;
 }
-.stButton > button:hover { border-color: $accent; color: $accent; }
-.stButton > button[kind="primary"] { background: $accent; color: #FFFFFF; border: none; }
+.stButton > button:hover { border-color: $accent !important; color: $accent !important; }
+.stButton > button[kind="primary"] {
+    background: $accent !important; color: #FFFFFF !important; border: none;
+}
 
 .result {
     border-radius: 14px; padding: 1rem 1.3rem; margin-top: 0.25rem;
