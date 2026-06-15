@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml"><img src="https://github.com/apoorvrajdev/restaurant-sentiment-analysis/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/badge/python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+" />
-  <img src="https://img.shields.io/badge/scikit--learn-MultinomialNB-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn" />
+  <img src="https://img.shields.io/badge/scikit--learn-LogisticRegression-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn" />
   <img src="https://img.shields.io/badge/Streamlit-deployed-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit" />
   <img src="https://img.shields.io/badge/tests-17%20passing-success?style=flat-square" alt="Tests" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License: MIT" />
@@ -46,7 +46,7 @@ Type any restaurant review and get an instant Positive/Negative prediction with 
 
 ## 📌 What Is This Project?
 
-A binary sentiment classifier for restaurant reviews, served through a small Streamlit web app. A review goes in; cleaned text is vectorized, scored by a Naive Bayes model, and returned as **Positive** or **Negative** with a confidence percentage.
+A binary sentiment classifier for restaurant reviews, served through a small Streamlit web app. A review goes in; cleaned text is vectorized, scored by a logistic-regression model, and returned as **Positive** or **Negative** with a confidence percentage.
 
 It is intentionally **not** a deep-learning showcase or a large system. It is a focused demonstration that the *unglamorous* parts of an ML project are done right: the same text preprocessing runs at training and inference time, training is reproducible from a script and a seed, the serialized artifacts are integrity-checked before they are trusted, and the whole thing is covered by tests that run in CI on every push.
 
@@ -80,10 +80,10 @@ Restaurant_Reviews.tsv                       user review (Streamlit text area)
    clean · lower · stem · stopwords             clean · lower · stem · stopwords
         │                                              │
         ▼                                              ▼
-   CountVectorizer.fit                          CountVectorizer.transform
+   TfidfVectorizer.fit                          TfidfVectorizer.transform
         │                                              │
         ▼                                              ▼
-   MultinomialNB.fit                            MultinomialNB.predict_proba
+   LogisticRegression.fit                       LogisticRegression.predict_proba
         │                                              │
         ▼                                              ▼
    model.pkl + vectorizer.pkl  ──────────────▶  label + confidence
@@ -98,20 +98,20 @@ Restaurant_Reviews.tsv                       user review (Streamlit text area)
 
 ## 📊 Model Performance
 
-Measured on a 20% held-out test split (`random_state=0`). Reproduce with `python train.py`.
+Measured on a 20% stratified held-out test split (`random_state=0`), with the vectorizer fit on the training split only. Reproduce with `python train.py`.
 
 | Metric   | Value      |
 | -------- | ---------- |
-| Accuracy | **0.78**   |
-| Model    | Multinomial Naive Bayes |
-| Features | Bag-of-Words (`CountVectorizer`, `max_features=1500`) |
+| Accuracy | **0.82**   |
+| Model    | Logistic Regression |
+| Features | TF-IDF (`TfidfVectorizer`, `max_features=1500`) |
 
 Confusion matrix (rows = actual, columns = predicted):
 
 | Actual ↓ / Predicted → | Negative | Positive |
 | ---------------------- | -------: | -------: |
-| **Negative**           | 75       | 22       |
-| **Positive**           | 22       | 81       |
+| **Negative**           | 81       | 19       |
+| **Positive**           | 17       | 83       |
 
 Full details — preprocessing, training data, intended use, and limitations — live in the [model card](docs/MODEL_CARD.md).
 
@@ -122,7 +122,7 @@ Full details — preprocessing, training data, intended use, and limitations —
 | Layer          | Technologies                                            |
 | -------------- | ------------------------------------------------------- |
 | **Language**   | Python 3.10+                                            |
-| **ML / NLP**   | scikit-learn (MultinomialNB, CountVectorizer), NLTK, pandas, numpy, joblib |
+| **ML / NLP**   | scikit-learn (LogisticRegression, TfidfVectorizer), NLTK, pandas, numpy, joblib |
 | **Web app**    | Streamlit                                               |
 | **Quality**    | pytest, pytest-cov, ruff (lint + format)                |
 | **CI**         | GitHub Actions                                          |
@@ -136,8 +136,9 @@ restaurant-sentiment-analysis/
 ├── app.py                  # Streamlit UI — thin: renders, calls inference
 ├── inference.py            # preprocess(), validation, integrity-checked loading, prediction
 ├── train.py                # Reproducible training; writes artifacts + checksum manifest
-├── model.pkl               # Trained Multinomial Naive Bayes model
-├── vectorizer.pkl          # Fitted CountVectorizer
+├── evaluate.py             # Benchmarks vectorizers/classifiers; writes docs/EVALUATION.md
+├── model.pkl               # Trained Logistic Regression model
+├── vectorizer.pkl          # Fitted TfidfVectorizer
 ├── artifacts.sha256        # sha256sum-compatible manifest for the artifacts
 ├── requirements.txt        # Runtime dependencies
 ├── requirements-dev.txt    # Dev/test/lint dependencies
@@ -151,6 +152,7 @@ restaurant-sentiment-analysis/
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── MODEL_CARD.md
+│   ├── EVALUATION.md
 │   └── DEPLOYMENT.md
 └── .github/workflows/ci.yml
 ```
@@ -199,10 +201,10 @@ ruff format --check .  # formatting
 > **Why share one `preprocess()` between training and inference?**
 > Train/serve skew is the bug that quietly destroys classical-NLP accuracy: if training stems and de-stopwords text but inference doesn't, the live request sends tokens the vectorizer's vocabulary never saw, and they're silently dropped. The only durable fix is a single code path. `train.py` and `inference.py` import the same `preprocess()`, so the text entering the vectorizer at inference is processed byte-for-byte like the training corpus.
 
-> **Why Multinomial Naive Bayes and not Gaussian?**
-> The features are word counts from a Bag-of-Words vectorizer — discrete, sparse, non-negative. `MultinomialNB` is built for exactly that distribution; `GaussianNB` assumes continuous, normally-distributed features and is a poor fit for count data. Switching to it lifted held-out accuracy.
+> **Why Logistic Regression with TF-IDF?**
+> The choice is benchmark-driven, not assumed: `evaluate.py` compares two vectorizers against four classifiers with leakage-free cross-validation (see [docs/EVALUATION.md](docs/EVALUATION.md)). TF-IDF + Logistic Regression won, lifting held-out accuracy to ~0.82. The earlier baseline used Gaussian Naive Bayes — wrong for sparse word features — then Multinomial Naive Bayes; benchmarking justified the move to a linear model.
 
-> **Why Bag-of-Words instead of a transformer?**
+> **Why a classical TF-IDF pipeline instead of a transformer?**
 > On 1,000 reviews, a large language model would be overkill, slower to serve, and far harder to explain. A linear-time, fully interpretable classical pipeline is the honest engineering choice at this scale — and it keeps the deployed app small enough to run free on Streamlit Cloud.
 
 > **Why checksum and type-validate the model artifacts?**
@@ -225,10 +227,10 @@ ruff format --check .  # formatting
 - [x] CI quality gates: `ruff` lint/format + pytest coverage
 - [x] Upgraded `scikit-learn` (1.2.2 → 1.7.x) and retrained artifacts
 - [x] Benchmarked vectorizers/classifiers + misclassification analysis ([docs/EVALUATION.md](docs/EVALUATION.md))
+- [x] Adopted the best benchmarked config — TF-IDF + Logistic Regression (accuracy 0.78 → 0.82)
 
 ### 🔜 Next Up
 
-- [ ] Adopt the best benchmarked config — TF-IDF + Logistic Regression (~0.82 test accuracy)
 - [ ] Expand the dataset to improve generalization
 
 ### 🔭 Future Direction
@@ -244,7 +246,7 @@ ruff format --check .  # formatting
 - Binary sentiment only — no neutral or mixed class.
 - English-language reviews only.
 - Trained on a small, single-domain dataset; may not generalize to other corpora.
-- Bag-of-Words ignores word order and most negation beyond the retained `not` token.
+- TF-IDF ignores word order and most negation beyond the retained `not` token.
 
 ---
 
