@@ -63,26 +63,29 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 #MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
 [data-testid="stHeader"] { background: transparent; }
 .stApp, [data-testid="stAppViewContainer"] { background: $bg; }
-.block-container { max-width: 700px; padding-top: 2.5rem; padding-bottom: 4rem; }
+.block-container { max-width: 720px; padding-top: 0.75rem; padding-bottom: 1rem; }
+[data-testid="stVerticalBlock"] { gap: 0.5rem; }
 .stApp, .stApp p, .stApp label, .stMarkdown,
 [data-testid="stWidgetLabel"] p { color: $text; }
-[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p { color: $sub; }
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {
+    color: $sub; margin-bottom: 0;
+}
 
 .banner {
-    position: relative; border-radius: 18px; overflow: hidden;
-    padding: 3rem 2rem; margin-bottom: 0.75rem;
+    position: relative; border-radius: 16px; overflow: hidden;
+    padding: 1.5rem 1.9rem; margin-bottom: 0.5rem;
     background: linear-gradient(135deg, rgba(15,23,42,0.80), rgba(79,70,229,0.55)),
                 url('$banner') center/cover;
 }
 .banner .kicker {
-    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.09em;
-    text-transform: uppercase; color: #C7D2FE; margin-bottom: 0.5rem;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em;
+    text-transform: uppercase; color: #C7D2FE; margin-bottom: 0.3rem;
 }
-.banner .title { font-size: 2.3rem; font-weight: 700; line-height: 1.1; color: #FFFFFF; margin: 0; }
-.banner .sub { font-size: 1.02rem; color: #E2E8F0; margin-top: 0.6rem; max-width: 36rem; }
+.banner .title { font-size: 1.8rem; font-weight: 700; line-height: 1.1; color: #FFFFFF; margin: 0; }
+.banner .sub { font-size: 0.9rem; color: #E2E8F0; margin-top: 0.35rem; max-width: 34rem; }
 
-.food-strip { display: flex; gap: 10px; margin-bottom: 1.5rem; }
-.food-strip img { flex: 1; width: 100%; height: 84px; object-fit: cover; border-radius: 12px; }
+.food-strip { display: flex; gap: 10px; margin-bottom: 0.5rem; }
+.food-strip img { flex: 1; width: 100%; height: 54px; object-fit: cover; border-radius: 10px; }
 
 .stTextArea textarea {
     border-radius: 12px; border: 1px solid $border; font-size: 1rem;
@@ -96,7 +99,7 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 .stButton > button[kind="primary"] { background: $accent; color: #FFFFFF; border: none; }
 
 .result {
-    border-radius: 14px; padding: 1.25rem 1.4rem; margin-top: 0.5rem;
+    border-radius: 14px; padding: 1rem 1.3rem; margin-top: 0.25rem;
     border: 1px solid $border; background: $card;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
 }
@@ -114,8 +117,8 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 .result.negative .meter-fill { background: #EF4444; }
 
 .footer {
-    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid $border;
-    font-size: 0.85rem; color: $sub; text-align: center;
+    margin-top: 1.25rem; padding-top: 0.8rem; border-top: 1px solid $border;
+    font-size: 0.82rem; color: $sub; text-align: center;
 }
 .footer a { color: $accent; text-decoration: none; font-weight: 500; }
 </style>
@@ -194,7 +197,7 @@ for column, (chip_label, chip_text) in zip(example_columns, EXAMPLES.items(), st
 review = st.text_area(
     "Your review",
     key="review_input",
-    height=130,
+    height=80,
     max_chars=MAX_REVIEW_LENGTH,
     placeholder="Example: The food was delicious and the service was excellent.",
 )
