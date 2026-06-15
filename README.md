@@ -224,16 +224,18 @@ ruff format --check .  # formatting
 - [x] Test suite (17 tests) covering inference, artifact failures, and the UI
 - [x] CI quality gates: `ruff` lint/format + pytest coverage
 - [x] Upgraded `scikit-learn` (1.2.2 → 1.7.x) and retrained artifacts
+- [x] Benchmarked vectorizers/classifiers + misclassification analysis ([docs/EVALUATION.md](docs/EVALUATION.md))
 
 ### 🔜 Next Up
 
-- [ ] Expand the dataset and analyze misclassifications
+- [ ] Adopt the best benchmarked config — TF-IDF + Logistic Regression (~0.82 test accuracy)
+- [ ] Expand the dataset to improve generalization
 
 ### 🔭 Future Direction
 
 - [ ] Neutral / mixed sentiment class beyond binary
 - [ ] Batch analysis and sentiment-trend visualizations
-- [ ] Benchmark alternative features/classifiers and tune hyperparameters
+- [ ] Hyperparameter tuning and probability calibration
 
 ---
 
@@ -250,6 +252,7 @@ ruff format --check .  # formatting
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — training and inference pipelines, components, and data flow.
 - [docs/MODEL_CARD.md](docs/MODEL_CARD.md) — model details, data, metrics, intended use, and limitations.
+- [docs/EVALUATION.md](docs/EVALUATION.md) — benchmark of vectorizers/classifiers and misclassification analysis.
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — local and Streamlit Community Cloud deployment, plus retraining.
 - [CHANGELOG.md](CHANGELOG.md) — notable changes by release.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — local setup, required checks, and conventions.
