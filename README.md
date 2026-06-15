@@ -9,7 +9,7 @@
 
 End-to-end **NLP classification pipeline** that predicts customer sentiment from restaurant reviews. Built the full workflow from raw text preprocessing to deployed web application using classical machine learning.
 
-**Key results:** 73% accuracy on a 1,000-review dataset, with a live Streamlit app serving real-time predictions.
+**Key results:** 78% accuracy on a 1,000-review dataset, with a live Streamlit app serving real-time predictions.
 
 ---
 
@@ -58,14 +58,14 @@ Real inference outputs captured from the deployed Streamlit application. Each ex
 
 <p align="center"><sub>Confusion matrix generated during model evaluation on the held-out test split.</sub></p>
 
-**Model Accuracy: 73%**
+**Model Accuracy: 78%**
 
 | Actual ↓ / Predicted → | Negative | Positive |
 |------------------------|---------:|---------:|
-| **Negative**           | 55       | 42       |
-| **Positive**           | 12       | 91       |
+| **Negative**           | 75       | 22       |
+| **Positive**           | 22       | 81       |
 
-The model performs reasonably well for a small dataset and demonstrates a full NLP classification workflow.
+The model uses Multinomial Naive Bayes over Bag-of-Words features, with identical text preprocessing at training and inference time. It performs reasonably well for a small dataset and demonstrates a full NLP classification workflow.
 
 ---
 
@@ -92,25 +92,26 @@ The goal of the dataset is to train a machine learning model capable of understa
 The project follows a complete **machine learning pipeline**:
 1. Data preprocessing and text cleaning
 2. Tokenization and stopword removal
-3. Feature extraction using **Bag of Words**
-4. Model training using **Naive Bayes classifier**
+3. Feature extraction using **Bag of Words** (`CountVectorizer`)
+4. Model training using a **Multinomial Naive Bayes classifier**
 5. Model evaluation using **confusion matrix and accuracy**
-6. Saving the trained model
+6. Saving the trained model and vectorizer
 7. Deploying the model as a **web application using Streamlit**
 
 ---
 
 ## 🗂️ Project Structure
 
-## Project Structure
-
 ```text
 restaurant-sentiment-analysis/
-├── app.py
-├── inference.py
+├── app.py                # Streamlit web interface
+├── inference.py          # Preprocessing, validation, and prediction
+├── train.py              # Reproducible training script
 ├── requirements.txt
-├── model.pkl
-├── vectorizer.pkl
+├── model.pkl             # Trained Multinomial Naive Bayes model
+├── vectorizer.pkl        # Fitted CountVectorizer
+├── data/
+│   └── Restaurant_Reviews.tsv
 ├── tests/
 ├── docs/
 │   └── ARCHITECTURE.md
@@ -123,14 +124,13 @@ restaurant-sentiment-analysis/
 
 - Sentiment classification of restaurant reviews
 - Streamlit-based interactive web interface
-- TF-IDF feature extraction
-- Naive Bayes machine learning model
+- Bag-of-Words feature extraction (`CountVectorizer`)
+- Multinomial Naive Bayes machine learning model
+- Shared text preprocessing across training and inference
 - Input validation and error handling
 - Automated testing with pytest
 - GitHub Actions CI workflow
 - Reproducible local setup
-
-```
 
 ## ⚙️ Installation
 
@@ -154,6 +154,14 @@ streamlit run app.py
 
 The app will open automatically in your browser.
 
+### Retrain the model (optional)
+
+The dataset lives in `data/Restaurant_Reviews.tsv`. To regenerate `model.pkl` and `vectorizer.pkl` from scratch using the same preprocessing as inference:
+
+```
+python train.py
+```
+
 ### Run automated tests
 
 ```
@@ -176,14 +184,12 @@ The test suite validates:
 - Prediction functionality
 - Input validation
 - Application stability
-```
 
 ## Current Limitations
 
 - Binary sentiment classification only
 - Model trained on a limited review dataset
 - No confidence score exposed to users
-- No model retraining pipeline
 - English-language reviews only
 
 ---
@@ -216,7 +222,7 @@ Machine Learning & NLP Engineer
 
 ### What machine learning model is used?
 
-This project uses a Naive Bayes classifier trained on restaurant review text transformed using TF-IDF feature extraction.
+This project uses a Multinomial Naive Bayes classifier trained on restaurant review text transformed into Bag-of-Words features with `CountVectorizer`.
 
 ### Can I analyze my own restaurant reviews?
 
@@ -224,7 +230,7 @@ Yes. Enter any restaurant review into the Streamlit interface and the applicatio
 
 ### How is the text processed?
 
-The review text is cleaned and transformed using a saved TF-IDF vectorizer before being passed to the trained model.
+The review text is cleaned, lowercased, stemmed, and stripped of stopwords (the same `preprocess()` step used at training time), then transformed by the saved `CountVectorizer` before being passed to the trained model.
 
 ### Is the model suitable for production use?
 
