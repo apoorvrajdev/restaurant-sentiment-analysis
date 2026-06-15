@@ -1,4 +1,5 @@
 import logging
+from string import Template
 
 import streamlit as st
 
@@ -19,13 +20,40 @@ st.set_page_config(
 )
 
 REPO_URL = "https://github.com/apoorvrajdev/restaurant-sentiment-analysis"
+BANNER_IMG = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80"
+FOOD_THUMBS = [
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+]
 EXAMPLES = {
     "😋 Loved it": "The food was absolutely delicious and the service was excellent.",
     "🙂 Solid": "Fresh ingredients, generous portions, and a cozy atmosphere.",
     "😠 Disappointing": "Worst meal ever, cold food and rude service.",
 }
 
-STYLE = """
+LIGHT = {
+    "bg": "#FFFFFF",
+    "secondary": "#F8FAFC",
+    "text": "#0F172A",
+    "sub": "#475569",
+    "border": "#E2E8F0",
+    "card": "#FFFFFF",
+    "accent": "#4F46E5",
+    "meter_bg": "#F1F5F9",
+}
+DARK = {
+    "bg": "#0E1117",
+    "secondary": "#161B22",
+    "text": "#E6EDF3",
+    "sub": "#9AA7B4",
+    "border": "#232A33",
+    "card": "#161B22",
+    "accent": "#818CF8",
+    "meter_bg": "#232A33",
+}
+
+STYLE = Template("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -34,39 +62,51 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 }
 #MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
 [data-testid="stHeader"] { background: transparent; }
-.block-container { max-width: 680px; padding-top: 3rem; padding-bottom: 4rem; }
+.stApp, [data-testid="stAppViewContainer"] { background: $bg; }
+.block-container { max-width: 700px; padding-top: 2.5rem; padding-bottom: 4rem; }
+.stApp, .stApp p, .stApp label, .stMarkdown,
+[data-testid="stWidgetLabel"] p { color: $text; }
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p { color: $sub; }
 
-.hero-kicker {
-    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; color: #4F46E5; margin-bottom: 0.4rem;
+.banner {
+    position: relative; border-radius: 18px; overflow: hidden;
+    padding: 3rem 2rem; margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, rgba(15,23,42,0.80), rgba(79,70,229,0.55)),
+                url('$banner') center/cover;
 }
-.hero-title {
-    font-size: 2.4rem; font-weight: 700; line-height: 1.1;
-    color: #0F172A; margin: 0 0 0.6rem 0;
+.banner .kicker {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.09em;
+    text-transform: uppercase; color: #C7D2FE; margin-bottom: 0.5rem;
 }
-.hero-sub { font-size: 1.05rem; color: #475569; margin-bottom: 1.75rem; }
+.banner .title { font-size: 2.3rem; font-weight: 700; line-height: 1.1; color: #FFFFFF; margin: 0; }
+.banner .sub { font-size: 1.02rem; color: #E2E8F0; margin-top: 0.6rem; max-width: 36rem; }
 
-.stButton > button {
-    border-radius: 10px; border: 1px solid #E2E8F0; font-weight: 500;
-    transition: all 0.15s ease;
-}
-.stButton > button:hover { border-color: #4F46E5; color: #4F46E5; }
+.food-strip { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+.food-strip img { flex: 1; width: 100%; height: 84px; object-fit: cover; border-radius: 12px; }
+
 .stTextArea textarea {
-    border-radius: 12px; border: 1px solid #E2E8F0; font-size: 1rem;
+    border-radius: 12px; border: 1px solid $border; font-size: 1rem;
+    background: $secondary; color: $text;
 }
+.stButton > button {
+    border-radius: 10px; border: 1px solid $border; font-weight: 500;
+    background: $card; color: $text; transition: all 0.15s ease;
+}
+.stButton > button:hover { border-color: $accent; color: $accent; }
+.stButton > button[kind="primary"] { background: $accent; color: #FFFFFF; border: none; }
 
 .result {
     border-radius: 14px; padding: 1.25rem 1.4rem; margin-top: 0.5rem;
-    border: 1px solid #E2E8F0; background: #FFFFFF;
+    border: 1px solid $border; background: $card;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
 }
 .result-row { display: flex; justify-content: space-between; align-items: baseline; }
 .result-label { font-size: 1.25rem; font-weight: 700; }
-.result-conf { font-size: 0.95rem; color: #64748B; font-weight: 500; }
-.result.positive .result-label { color: #047857; }
-.result.negative .result-label { color: #B91C1C; }
+.result-conf { font-size: 0.95rem; color: $sub; font-weight: 500; }
+.result.positive .result-label { color: #10B981; }
+.result.negative .result-label { color: #EF4444; }
 .meter {
-    height: 8px; border-radius: 999px; background: #F1F5F9;
+    height: 8px; border-radius: 999px; background: $meter_bg;
     margin-top: 0.9rem; overflow: hidden;
 }
 .meter-fill { height: 100%; border-radius: 999px; }
@@ -74,18 +114,21 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 .result.negative .meter-fill { background: #EF4444; }
 
 .footer {
-    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid #F1F5F9;
-    font-size: 0.85rem; color: #94A3B8; text-align: center;
+    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid $border;
+    font-size: 0.85rem; color: $sub; text-align: center;
 }
-.footer a { color: #64748B; text-decoration: none; font-weight: 500; }
-.footer a:hover { color: #4F46E5; }
+.footer a { color: $accent; text-decoration: none; font-weight: 500; }
 </style>
-"""
+""")
 
 
 @st.cache_resource
 def get_artifacts():
     return load_artifacts()
+
+
+def toggle_theme() -> None:
+    st.session_state.dark = not st.session_state.get("dark", False)
 
 
 def render_result(label: str, confidence: float) -> None:
@@ -106,7 +149,11 @@ def render_result(label: str, confidence: float) -> None:
     )
 
 
-st.markdown(STYLE, unsafe_allow_html=True)
+st.session_state.setdefault("dark", False)
+st.session_state.setdefault("review_input", "")
+dark = st.session_state.dark
+
+st.markdown(STYLE.substitute(DARK if dark else LIGHT, banner=BANNER_IMG), unsafe_allow_html=True)
 
 try:
     model, vectorizer = get_artifacts()
@@ -115,17 +162,28 @@ except Exception:
     st.error("The sentiment model is temporarily unavailable. Please try again later.")
     st.stop()
 
+_, toggle_column = st.columns([6, 1])
+toggle_column.button(
+    "☀️ Day" if dark else "🌙 Night",
+    on_click=toggle_theme,
+    use_container_width=True,
+    help="Switch between day and night theme",
+)
+
 st.markdown(
-    """
-    <div class="hero-kicker">Restaurant Review Sentiment Analyzer</div>
-    <h1 class="hero-title">Is this review positive?</h1>
-    <p class="hero-sub">Paste a restaurant review and classify its sentiment in real time,
-    with a confidence score behind every prediction.</p>
+    f"""
+    <div class="banner">
+      <div class="kicker">Restaurant Review Sentiment Analyzer</div>
+      <h1 class="title">Is this review positive?</h1>
+      <p class="sub">Paste a restaurant review and classify its sentiment in real time,
+      with a confidence score behind every prediction.</p>
+    </div>
+    <div class="food-strip">
+      {"".join(f'<img src="{src}" alt="Food" />' for src in FOOD_THUMBS)}
+    </div>
     """,
     unsafe_allow_html=True,
 )
-
-st.session_state.setdefault("review_input", "")
 
 st.caption("Try an example")
 example_columns = st.columns(len(EXAMPLES))
