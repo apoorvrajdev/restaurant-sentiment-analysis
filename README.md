@@ -27,16 +27,16 @@ Type any restaurant review and get an instant Positive/Negative prediction with 
 
 <table>
   <tr>
-    <td align="center" width="50%">
-      <b>✅ Positive Review</b><br/>
-      <sub>A favorable review → <code>Positive</code></sub><br/><br/>
-      <img src="https://github.com/user-attachments/assets/18b117ef-e768-4394-b89c-dca3e7e4586a" alt="Positive Review Prediction in Streamlit App" width="100%"/>
-    </td>
-    <td align="center" width="50%">
-      <b>❌ Negative Review</b><br/>
-      <sub>An unfavorable review → <code>Negative</code></sub><br/><br/>
-      <img src="https://github.com/user-attachments/assets/f3042f90-c90c-4b6f-b41e-0bc8bfe0bf0f" alt="Negative Review Prediction in Streamlit App" width="100%"/>
-    </td>
+    <td align="center" width="50%"><b>✅ Positive Reviews → <code>Positive</code></b></td>
+    <td align="center" width="50%"><b>❌ Negative Reviews → <code>Negative</code></b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/positive-1.png" alt="Positive review prediction in the Streamlit app" width="100%"/></td>
+    <td align="center"><img src="docs/screenshots/negative-1.png" alt="Negative review prediction in the Streamlit app" width="100%"/></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/positive-2.png" alt="Positive review prediction in the Streamlit app" width="100%"/></td>
+    <td align="center"><img src="docs/screenshots/negative-2.png" alt="Negative review prediction in the Streamlit app" width="100%"/></td>
   </tr>
 </table>
 
