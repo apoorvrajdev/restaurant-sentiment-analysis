@@ -58,9 +58,7 @@ def predict_sentiment(review: str, model: Any, vectorizer: Any) -> str:
         raise ReviewValidationError("Enter a review before requesting a prediction.")
 
     if len(normalized_review) > MAX_REVIEW_LENGTH:
-        raise ReviewValidationError(
-            f"Review must be {MAX_REVIEW_LENGTH:,} characters or fewer."
-        )
+        raise ReviewValidationError(f"Review must be {MAX_REVIEW_LENGTH:,} characters or fewer.")
 
     review_vector = vectorizer.transform([preprocess(normalized_review)])
     if review_vector.nnz == 0:

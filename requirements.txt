@@ -4,4 +4,3 @@ pandas>=1.5,<3
 numpy>=1.23.5,<2
 nltk>=3.8,<4
 joblib>=1.2,<2
-pytest
