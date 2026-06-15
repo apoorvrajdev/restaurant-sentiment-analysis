@@ -4,8 +4,8 @@
 
 1. Load review dataset (`data/Restaurant_Reviews.tsv`)
 2. Clean and preprocess text via the shared `preprocess()` (clean → lowercase → stem → stopword removal)
-3. Generate Bag-of-Words features (`CountVectorizer`, `max_features=1500`)
-4. Train a Multinomial Naive Bayes classifier
+3. Generate TF-IDF features (`TfidfVectorizer`, `max_features=1500`)
+4. Train a Logistic Regression classifier
 5. Save model artifacts and a `sha256` checksum manifest
 
 ## Inference Pipeline (`app.py` + `inference.py`)
@@ -22,8 +22,8 @@
 - `app.py` — Streamlit user interface
 - `inference.py` — `preprocess()`, validation, integrity-checked loading, prediction
 - `train.py` — Reproducible training pipeline
-- `model.pkl` — Trained Multinomial Naive Bayes model
-- `vectorizer.pkl` — Fitted CountVectorizer
+- `model.pkl` — Trained Logistic Regression model
+- `vectorizer.pkl` — Fitted TfidfVectorizer
 - `artifacts.sha256` — Checksum manifest verified on load
 - `tests/` — Automated test suite
 - `.github/workflows/ci.yml` — Continuous Integration workflow
@@ -32,8 +32,8 @@
 
 1. User enters a restaurant review through the Streamlit interface.
 2. Input validation checks the review content.
-3. The shared `preprocess()` cleans and stems the text, then the saved `CountVectorizer` converts it into numerical features.
-4. The trained Multinomial Naive Bayes model generates a sentiment prediction and confidence.
+3. The shared `preprocess()` cleans and stems the text, then the saved `TfidfVectorizer` converts it into numerical features.
+4. The trained Logistic Regression model generates a sentiment prediction and confidence.
 5. The prediction result is displayed to the user.
 
 ---
@@ -42,8 +42,8 @@
 
 | File | Purpose |
 |--------|---------|
-| model.pkl | Stores the trained Multinomial Naive Bayes classifier |
-| vectorizer.pkl | Stores the fitted CountVectorizer |
+| model.pkl | Stores the trained Logistic Regression classifier |
+| vectorizer.pkl | Stores the fitted TfidfVectorizer |
 | artifacts.sha256 | Checksum manifest verified by `load_artifacts()` |
 
 ---
