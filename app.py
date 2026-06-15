@@ -62,8 +62,11 @@ html, body, [class*="css"], .stMarkdown, .stButton > button, textarea {
 }
 #MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; }
 [data-testid="stHeader"] { background: transparent; }
-.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"],
-[data-testid="stMainBlockContainer"] { background: $bg !important; }
+html, body, .stApp, [data-testid="stApp"], [data-testid="stAppViewContainer"],
+[data-testid="stMain"], [data-testid="stMainBlockContainer"],
+[data-testid="stBottomBlockContainer"], [data-testid="stHeader"] {
+    background-color: $bg !important;
+}
 .block-container { max-width: 720px; padding-top: 0.75rem; padding-bottom: 1rem; }
 [data-testid="stVerticalBlock"] { gap: 0.5rem; }
 .stApp, .stApp p, .stApp label, .stMarkdown,
