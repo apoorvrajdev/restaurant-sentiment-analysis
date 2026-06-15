@@ -246,6 +246,16 @@ ruff format --check .  # formatting
 
 ---
 
+## 📚 Documentation
+
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — training and inference pipelines, components, and data flow.
+- [docs/MODEL_CARD.md](docs/MODEL_CARD.md) — model details, data, metrics, intended use, and limitations.
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — local and Streamlit Community Cloud deployment, plus retraining.
+- [CHANGELOG.md](CHANGELOG.md) — notable changes by release.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — local setup, required checks, and conventions.
+
+---
+
 ## 📄 License & Contact
 
 Released under the [MIT License](LICENSE).
