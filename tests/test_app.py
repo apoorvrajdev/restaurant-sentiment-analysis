@@ -10,29 +10,47 @@ def _run_app():
     return AppTest.from_file(str(APP_PATH), default_timeout=30).run()
 
 
+def _markdown(app) -> str:
+    """All rendered markdown joined — the hero and result cards are custom HTML."""
+    return "\n".join(block.value for block in app.markdown)
+
+
+def _analyze(app):
+    """Click the primary Analyze button (not one of the example chips)."""
+    button = next(b for b in app.button if "Analyze" in b.label)
+    button.click()
+    return app.run()
+
+
 class AppTests(unittest.TestCase):
     def test_app_loads_without_error(self) -> None:
         app = _run_app()
 
         self.assertFalse(app.exception)
-        self.assertEqual(app.title[0].value, "Restaurant Review Sentiment Analyzer")
+        self.assertIn("Sentiment Analyzer", _markdown(app))
 
-    def test_positive_review_shows_success(self) -> None:
+    def test_positive_review_shows_result(self) -> None:
         app = _run_app()
         app.text_area[0].set_value("good food")
-        app.button[0].click()
-        app.run()
+        app = _analyze(app)
 
         self.assertFalse(app.exception)
-        self.assertEqual(len(app.success), 1)
-        self.assertIn("Positive", app.success[0].value)
-        self.assertIn("confidence", app.success[0].value)
+        markdown = _markdown(app)
+        self.assertIn("Positive", markdown)
+        self.assertIn("confidence", markdown)
+
+    def test_negative_review_shows_result(self) -> None:
+        app = _run_app()
+        app.text_area[0].set_value("bad food")
+        app = _analyze(app)
+
+        self.assertFalse(app.exception)
+        self.assertIn("Negative", _markdown(app))
 
     def test_empty_review_shows_warning(self) -> None:
         app = _run_app()
         app.text_area[0].set_value("   ")
-        app.button[0].click()
-        app.run()
+        app = _analyze(app)
 
         self.assertFalse(app.exception)
         self.assertEqual(len(app.warning), 1)
@@ -41,8 +59,7 @@ class AppTests(unittest.TestCase):
     def test_unrecognized_words_show_warning(self) -> None:
         app = _run_app()
         app.text_area[0].set_value("!!! 123456")
-        app.button[0].click()
-        app.run()
+        app = _analyze(app)
 
         self.assertFalse(app.exception)
         self.assertEqual(len(app.warning), 1)
